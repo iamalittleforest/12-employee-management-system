@@ -5,13 +5,13 @@ USE employees_db;
 
 -- create department table --
 CREATE TABLE department (
-  id INT PRIMARY KEY NOT NULL,
+  id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
   name VARCHAR(30)
 );
 
 -- create role table --
 CREATE TABLE role (
-  id INT PRIMARY KEY NOT NULL,
+  id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
   title VARCHAR(30),
   salary DECIMAL,
   department_id INT
@@ -19,9 +19,9 @@ CREATE TABLE role (
 
 -- create employee table --
 CREATE TABLE employee (
-  id INT PRIMARY KEY NOT NULL,
+  id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
   first_name VARCHAR(30),
   last_name VARCHAR(30),
   role_id INT,
-  manager_id INT,
+  manager_id INT
 );
