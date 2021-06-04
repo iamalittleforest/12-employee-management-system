@@ -16,3 +16,25 @@ connection.connect((err) => {
   if (err) throw err;
   start();
 });
+
+const start = () => {
+  inquirer
+    .prompt({
+      name: 'action',
+      type: 'list',
+      message: "What would you like to do?",
+      choices: [
+        'Add Department',
+        'Add Role',
+        'Add Employee',
+        'View All Departments',
+        'View All Roles',
+        'View All Employees',
+        'Update Employee Role',
+      ]
+    })
+    .then((answer) => {
+
+    });
+};
+
