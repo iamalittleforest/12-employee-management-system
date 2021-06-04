@@ -17,6 +17,7 @@ connection.connect((err) => {
   start();
 });
 
+// starts the CLI
 const start = () => {
   inquirer
     .prompt({
@@ -58,4 +59,33 @@ const start = () => {
           break;
       }
     });
+};
+
+// define functions
+const addDepartment = () => {
+
+};
+
+const addRole = () => {
+
+};
+
+const addEmployee = () => {
+
+};
+
+const viewAllDepartments = () => {
+
+};
+
+const viewAllRoles = () => {
+
+};
+
+const viewAllEmployees = () => {
+
+};
+
+const updateEmployeeRole = () => {
+
 };
