@@ -22,7 +22,7 @@ const start = () => {
     .prompt({
       name: 'action',
       type: 'list',
-      message: "What would you like to do?",
+      message: 'What would you like to do?',
       choices: [
         'Add Department',
         'Add Role',
@@ -34,7 +34,28 @@ const start = () => {
       ]
     })
     .then((answer) => {
-
+      switch(answer.action) {
+        case 'Add Department':
+          addDepartment();
+          break;
+        case 'Add Role':
+          addRole();
+          break;
+        case 'Add Employee':
+          addEmployee();
+          break;
+        case 'View All Departments':
+          viewAllDepartments();
+          break;
+        case 'View all Roles':
+          viewAllRoles();
+          break;
+        case 'View All Employees':
+          viewAllEmployees();
+          break;
+        case 'Update Employee Role':
+          updateEmployeeRole();
+          break;
+      }
     });
 };
-
