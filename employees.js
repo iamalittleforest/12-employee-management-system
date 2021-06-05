@@ -1,6 +1,7 @@
 // dependencies
 const mysql = require('mysql');
 const inquirer = require('inquirer');
+const { restoreDefaultPrompts } = require('inquirer');
 
 // create the connection for the sql database
 const connection = mysql.createConnection({
@@ -23,7 +24,7 @@ const start = () => {
     .prompt({
       name: 'action',
       type: 'list',
-      message: 'What would you like to do?',
+      message: "What would you like to do?",
       choices: [
         'Add Department',
         'Add Role',
@@ -71,7 +72,59 @@ const addRole = () => {
 };
 
 const addEmployee = () => {
-
+  inquirer
+  .prompt([
+    {
+      name: 'firstName',
+      type: 'input',
+      message: "What is the employee's first name?"
+    },
+    {
+      name: 'lastName',
+      type: 'input',
+      message: "What is the employee's last name?"
+    },
+    {
+      name: 'role',
+      type: 'rawlist',
+      roles() {
+        const roleArray = [];
+        results.forEach(({ role_id }) => {
+          roleArray.push(role_id);
+        });
+        return roleArray;
+      },
+      message: "What is the employee's role?"
+    },
+    {
+      name: 'manager',
+      type: 'rawlist',
+      managers() {
+        const managerArray = [];
+        results.forEach(({ manager_id }) => {
+          managerArray.push(manager_id);
+        });
+        return managerArray;
+      },
+      message: "Who is the employee's manager?"
+    }
+  ])
+  .then((answer) => {
+    connection.query(
+      'INSERT INTO employee SET ?',
+      {
+        first_name: answer.firstName,
+        last_name: answer.lastName,
+        role_id: answer.role,
+        manager_id: answer.manager,
+      },
+      (err) => {
+        if (err) throw err;
+        console.log(`Added ${answer.firstName} ${answer.lastName} to the database`);
+        start();
+      }
+    )
+  });
 };
 
 const viewAllDepartments = () => {
