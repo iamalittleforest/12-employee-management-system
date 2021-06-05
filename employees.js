@@ -1,7 +1,6 @@
 // dependencies
 const mysql = require('mysql');
 const inquirer = require('inquirer');
-const { restoreDefaultPrompts } = require('inquirer');
 
 // create the connection for the sql database
 const connection = mysql.createConnection({
@@ -88,23 +87,30 @@ const addEmployee = () => {
       name: 'role',
       type: 'rawlist',
       roles() {
-        const roleArray = [];
-        results.forEach(({ role_id }) => {
-          roleArray.push(role_id);
+        connection.query('SELECT * FROM role', (err, results) => {
+          if (err) throw err;
+          const roleArray = [];
+          results.forEach(({ role_id }) => {
+            roleArray.push(role_id);
+          });
+          return roleArray;
         });
-        return roleArray;
       },
       message: "What is the employee's role?"
     },
     {
       name: 'manager',
       type: 'rawlist',
+      // since there is no manager table, where to get manager info?
       managers() {
-        const managerArray = [];
-        results.forEach(({ manager_id }) => {
-          managerArray.push(manager_id);
+        connection.query('SELECT * FROM ', (err, results) => {
+          if (err) throw err;
+          const managerArray = [];
+          results.forEach(({ manager_id }) => {
+            managerArray.push(manager_id);
+          });
+          return managerArray;
         });
-        return managerArray;
       },
       message: "Who is the employee's manager?"
     }
