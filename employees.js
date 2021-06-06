@@ -168,7 +168,7 @@ const addEmployee = () => {
       name: 'managerId',
       type: 'list',
       message: "Who is the employee's manager?",
-      choices: managers()  
+      choices: employees()  
     }  
   ])  
   .then((answer) => {
@@ -225,7 +225,7 @@ const updateEmployeeRole = () => {
   });
 };
 
-// functions used for addEmployee function
+// functions used for addEmployee and updateEmployeeRole functions
 const roles = () => {
   connection.query('SELECT * FROM role', (err, results) => {
     if (err) throw err;
@@ -237,13 +237,13 @@ const roles = () => {
   });  
 };
 
-const managers = () => {
+const employees = () => {
   connection.query('SELECT * FROM employee', (err, results) => {
     if (err) throw err;
-    const managerArray = [];
-    results.forEach(({ manager_id }) => {
-      managerArray.push(manager_id);
+    const employeeArray = [];
+    results.forEach(({ id }) => {
+      employeeArray.push(id);
     });  
-    return managerArray;
-  });  
+    return employeeArray;
+  });
 };
