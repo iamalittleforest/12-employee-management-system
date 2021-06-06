@@ -72,7 +72,7 @@ const viewAllDepartments = () => {
 };
 
 const viewAllRoles = () => {
-  connection.query('SELECT role.id, role.title, role.salary, role.department_id FROM role', (err, res) => {
+  connection.query('SELECT role.id, role.title, role.salary, department.name AS department FROM role JOIN department ON role.department_id = department.id', (err, res) => {
     if (err) throw err;
     console.table(res);
     start();
@@ -159,35 +159,16 @@ const addEmployee = () => {
       message: "What is the employee's last name?"
     },  
     {
-      name: 'role',
+      name: 'roleId',
       type: 'rawlist',
-      roles() {
-        connection.query('SELECT * FROM role', (err, results) => {
-          if (err) throw err;
-          const roleArray = [];
-          results.forEach(({ role_id }) => {
-            roleArray.push(role_id);
-          });  
-          return roleArray;
-        });  
-      },  
-      message: "What is the employee's role?"
+      message: "What is the employee's role?",
+      choices: roles()
     },  
     {
-      name: 'manager',
+      name: 'managerId',
       type: 'rawlist',
-      // since there is no manager table, where to get manager info?
-      managers() {
-        connection.query('SELECT * FROM ', (err, results) => {
-          if (err) throw err;
-          const managerArray = [];
-          results.forEach(({ manager_id }) => {
-            managerArray.push(manager_id);
-          });  
-          return managerArray;
-        });  
-      },  
-      message: "Who is the employee's manager?"
+      message: "Who is the employee's manager?",
+      choices: managers()  
     }  
   ])  
   .then((answer) => {
@@ -196,8 +177,8 @@ const addEmployee = () => {
       {
         first_name: answer.firstName,
         last_name: answer.lastName,
-        role_id: answer.role,
-        manager_id: answer.manager
+        role_id: answer.roleId,
+        manager_id: answer.managerId
       },  
       (err) => {
         if (err) throw err;
@@ -211,3 +192,26 @@ const addEmployee = () => {
 const updateEmployeeRole = () => {
 
 };
+
+// functions used for addEmployee function
+const roles = () => {
+  connection.query('SELECT * FROM role', (err, results) => {
+    if (err) throw err;
+    const roleArray = [];
+    results.forEach(({ id }) => {
+      roleArray.push(id);
+    });  
+    return roleArray;
+  });  
+}
+
+const managers = () => {
+  connection.query('SELECT * FROM employee', (err, results) => {
+    if (err) throw err;
+    const managerArray = [];
+    results.forEach(({ manager_id }) => {
+      managerArray.push(manager_id);
+    });  
+    return managerArray;
+  });  
+}
