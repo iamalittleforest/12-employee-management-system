@@ -1,6 +1,7 @@
 // dependencies
 const mysql = require('mysql');
 const inquirer = require('inquirer');
+const cTable = require('console.table');
 
 // create the connection for the sql database
 const connection = mysql.createConnection({
@@ -134,7 +135,11 @@ const addEmployee = () => {
 };
 
 const viewAllDepartments = () => {
-
+  connection.query('SELECT * FROM department', (err, res) => {
+    if (err) throw err;
+    console.table(res);
+    start();
+  });
 };
 
 const viewAllRoles = () => {
