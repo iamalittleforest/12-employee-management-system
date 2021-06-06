@@ -80,7 +80,7 @@ const viewAllRoles = () => {
 };
 
 const viewAllEmployees = () => {
-  connection.query('SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, manager_id FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id', (err, res) => {
+  connection.query(`SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee AS manager RIGHT JOIN employee ON employee.manager_id = manager.id INNER JOIN role ON employee.role_id = role.id INNER JOIN department ON role.department_id = department.id`, (err, res) => {
     if (err) throw err;
     console.table(res);
     start();
@@ -229,7 +229,7 @@ const updateEmployeeRole = () => {
 const roles = () => {
   connection.query('SELECT * FROM role', (err, results) => {
     if (err) throw err;
-    const roleArray = [];
+    let roleArray = [];
     results.forEach(({ id }) => {
       roleArray.push(id);
     });  
@@ -240,7 +240,7 @@ const roles = () => {
 const employees = () => {
   connection.query('SELECT * FROM employee', (err, results) => {
     if (err) throw err;
-    const employeeArray = [];
+    let employeeArray = [];
     results.forEach(({ id }) => {
       employeeArray.push(id);
     });  
