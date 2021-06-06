@@ -160,13 +160,13 @@ const addEmployee = () => {
     },  
     {
       name: 'roleId',
-      type: 'rawlist',
+      type: 'list',
       message: "What is the employee's role?",
       choices: roles()
     },  
     {
       name: 'managerId',
-      type: 'rawlist',
+      type: 'list',
       message: "Who is the employee's manager?",
       choices: managers()  
     }  
@@ -203,7 +203,7 @@ const roles = () => {
     });  
     return roleArray;
   });  
-}
+};
 
 const managers = () => {
   connection.query('SELECT * FROM employee', (err, results) => {
@@ -214,4 +214,4 @@ const managers = () => {
     });  
     return managerArray;
   });  
-}
+};
