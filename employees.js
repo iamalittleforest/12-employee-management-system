@@ -32,7 +32,7 @@ const start = () => {
         'Add Department',
         'Add Role',
         'Add Employee',
-        'Update Employee Role',
+        'Update Employee Role'
       ]
     })
     .then((answer) => {
@@ -88,7 +88,25 @@ const viewAllEmployees = () => {
 };
 
 const addDepartment = () => {
-
+  inquirer
+    .prompt({
+      name: 'name',
+      type: 'input',
+      message: "What is Department's name?",
+    })
+    .then((answer) => {
+      connection.query(
+        'INSERT INTO department SET ?',
+        {
+          name: answer.name
+        },
+        (err) => {
+          if (err) throw err;
+          console.log(`Added ${answer.name} Department to the database`);
+          start();
+        }
+      );
+    });
 };  
 
 const addRole = () => {
@@ -147,7 +165,7 @@ const addEmployee = () => {
         first_name: answer.firstName,
         last_name: answer.lastName,
         role_id: answer.role,
-        manager_id: answer.manager,
+        manager_id: answer.manager
       },  
       (err) => {
         if (err) throw err;
