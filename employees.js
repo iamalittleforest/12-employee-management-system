@@ -92,7 +92,7 @@ const addDepartment = () => {
     .prompt({
       name: 'name',
       type: 'input',
-      message: "What is Department's name?",
+      message: "What is the name of the department?",
     })
     .then((answer) => {
       connection.query(
@@ -115,17 +115,17 @@ const addRole = () => {
       {
         name: 'title',
         type: 'input',
-        message: "What is Role's title?",
+        message: "What is title of the role?",
       },
       {
         name: 'salary',
         type: 'input',
-        message: "What is Role's salary?",
+        message: "What is salary of the role?",
       },
       {
         name: 'departmentId',
         type: 'input',
-        message: "What is Role's department ID?",
+        message: "What is the department ID of the role?",
       }
     ])
     .then((answer) => {
