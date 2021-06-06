@@ -151,7 +151,11 @@ const viewAllRoles = () => {
 };
 
 const viewAllEmployees = () => {
-
+  connection.query('SELECT * FROM employee', (err, res) => {
+    if (err) throw err;
+    console.table(res);
+    start();
+  });
 };
 
 const updateEmployeeRole = () => {
