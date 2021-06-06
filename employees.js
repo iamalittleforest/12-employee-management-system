@@ -110,7 +110,39 @@ const addDepartment = () => {
 };  
 
 const addRole = () => {
-
+  inquirer
+    .prompt([
+      {
+        name: 'title',
+        type: 'input',
+        message: "What is Role's title?",
+      },
+      {
+        name: 'salary',
+        type: 'input',
+        message: "What is Role's salary?",
+      },
+      {
+        name: 'departmentId',
+        type: 'input',
+        message: "What is Role's department ID?",
+      }
+    ])
+    .then((answer) => {
+      connection.query(
+        'INSERT INTO role SET ?',
+        {
+          title: answer.title,
+          salary: answer.salary,
+          department_id: answer.departmentId
+        },
+        (err) => {
+          if (err) throw err;
+          console.log(`Added ${answer.title} Role to the database`);
+          start();
+        }
+      );
+    });
 };  
 
 const addEmployee = () => {
