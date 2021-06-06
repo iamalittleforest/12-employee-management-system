@@ -49,7 +49,7 @@ const start = () => {
         case 'View All Departments':
           viewAllDepartments();
           break;
-        case 'View all Roles':
+        case 'View All Roles':
           viewAllRoles();
           break;
         case 'View All Employees':
@@ -135,7 +135,7 @@ const addEmployee = () => {
 };
 
 const viewAllDepartments = () => {
-  connection.query('SELECT * FROM department', (err, res) => {
+  connection.query('SELECT department.id, department.name FROM department', (err, res) => {
     if (err) throw err;
     console.table(res);
     start();
@@ -143,7 +143,7 @@ const viewAllDepartments = () => {
 };
 
 const viewAllRoles = () => {
-  connection.query('SELECT * FROM role', (err, res) => {
+  connection.query('SELECT role.id, role.title, role.salary, role.department_id FROM role', (err, res) => {
     if (err) throw err;
     console.table(res);
     start();
@@ -151,7 +151,7 @@ const viewAllRoles = () => {
 };
 
 const viewAllEmployees = () => {
-  connection.query('SELECT * FROM employee', (err, res) => {
+  connection.query('SELECT employee.id, employee.first_name, employee.last_name, employee.role_id, employee.manager_id FROM employee', (err, res) => {
     if (err) throw err;
     console.table(res);
     start();
