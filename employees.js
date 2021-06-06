@@ -190,7 +190,39 @@ const addEmployee = () => {
 };  
 
 const updateEmployeeRole = () => {
-
+  inquirer
+  .prompt([
+    {
+      name: 'name',
+      type: 'list',
+      message: "Which employee's role do you want to update?",
+      choices: employees()
+    },
+    {
+      name: 'roleId',
+      type: 'list',
+      message: "What is the employee's new role?",
+      choices: roles()
+    }
+  ])
+  .then((answer) => {
+    connection.query(
+      'UPDATE role SET ? WHERE ?',
+      [
+        {
+          title: answer.title
+        },
+        {
+          id: answer.id
+        }
+      ],
+      (err) => {
+        if (err) throw err;
+        console.log(`Updated ${answer.id}'s Role`);
+        start();
+      }
+    );
+  });
 };
 
 // functions used for addEmployee function
