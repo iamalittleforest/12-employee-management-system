@@ -179,13 +179,13 @@ const addEmployee = async() => {
       name: 'roleId',
       type: 'list',
       message: "What is the employee's role?",
-      choices: await roles()
+      choices: await roleChoices()
     },  
     {
       name: 'managerId',
       type: 'list',
       message: "Who is the employee's manager?",
-      choices: await employees()  
+      choices: await employeeChoices()  
     }  
   ])  
   .then((answer) => {
@@ -210,16 +210,16 @@ const addEmployee = async() => {
 const deleteDepartment = async() => {
   inquirer
     .prompt({
-      name: 'id',
+      name: 'departmentId',
       type: 'list',
       message: "Which department do you want to remove?",
-      choices: await departments()
+      choices: await departmentChoices()
     })
     .then((answer) => {
       connection.query(
         'DELETE FROM department WHERE ?',
         {
-          id: answer.id
+          id: answer.departmentId
         },
         (err) => {
           if (err) throw err;
@@ -228,7 +228,30 @@ const deleteDepartment = async() => {
         }
       );
     });
-}; 
+};
+
+const deleteRole = async() => {
+  inquirer
+    .prompt({
+      name: 'roleId',
+      type: 'list',
+      message: "Which role do you want to remove?",
+      choices: await roleChoices()
+    })
+    .then((answer) => {
+      connection.query(
+        'DELETE FROM role WHERE ?',
+        {
+          id: answer.roleId
+        },
+        (err) => {
+          if (err) throw err;
+          console.log(`Removed role from the database`);
+          start();
+        }
+      );
+    });
+};
 
 // define update functions
 const updateEmployeeRole = async() => {
@@ -238,13 +261,13 @@ const updateEmployeeRole = async() => {
       name: 'id',
       type: 'list',
       message: "Which employee's role do you want to update?",
-      choices: await employees()
+      choices: await employeeChoices()
     },
     {
       name: 'roleId',
       type: 'list',
       message: "What is the employee's new role?",
-      choices: await roles()
+      choices: await roleChoices()
     }
   ])
   .then((answer) => {
@@ -260,7 +283,7 @@ const updateEmployeeRole = async() => {
       ],
       (err) => {
         if (err) throw err;
-        console.log(`Updated ${answer.id}'s Role`);
+        console.log(`Updated employee's Role`);
         start();
       }
     );
@@ -268,8 +291,8 @@ const updateEmployeeRole = async() => {
 };
 
 // helper functions that pull choices 
-const departments = async() => await connection.query('SELECT department.name AS name, department.id AS value FROM department');
+const departmentChoices = async() => await connection.query('SELECT department.name AS name, department.id AS value FROM department');
 
-const roles = async() => await connection.query('SELECT role.title AS name, role.id AS value FROM role');
+const roleChoices = async() => await connection.query('SELECT role.title AS name, role.id AS value FROM role');
 
-const employees = async() => await connection.query(`SELECT CONCAT(employee.first_name, ' ', employee.last_name) AS name, employee.id AS value FROM employee`);
+const employeeChoices = async() => await connection.query(`SELECT CONCAT(employee.first_name, ' ', employee.last_name) AS name, employee.id AS value FROM employee`);
