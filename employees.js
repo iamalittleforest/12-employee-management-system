@@ -1,6 +1,7 @@
 // dependencies
 const mysql = require('mysql');
 const inquirer = require('inquirer');
+const util = require('util');
 const cTable = require('console.table');
 
 // create the connection for the sql database
@@ -17,6 +18,9 @@ connection.connect((err) => {
   if (err) throw err;
   start();
 });
+
+// promisify all connection queries
+connection.query = util.promisify(connection.query)
 
 // starts the CLI
 const start = () => {
@@ -145,7 +149,7 @@ const addRole = () => {
     });
 };  
 
-const addEmployee = () => {
+const addEmployee = async() => {
   inquirer
   .prompt([
     {
@@ -162,13 +166,13 @@ const addEmployee = () => {
       name: 'roleId',
       type: 'list',
       message: "What is the employee's role?",
-      choices: roles()
+      choices: await roles()
     },  
     {
       name: 'managerId',
       type: 'list',
       message: "Who is the employee's manager?",
-      choices: employees()  
+      choices: await employees()  
     }  
   ])  
   .then((answer) => {
@@ -189,31 +193,31 @@ const addEmployee = () => {
   });  
 };  
 
-const updateEmployeeRole = () => {
+const updateEmployeeRole = async() => {
   inquirer
   .prompt([
     {
-      name: 'name',
+      name: 'id',
       type: 'list',
       message: "Which employee's role do you want to update?",
-      choices: employees()
+      choices: await employees()
     },
     {
       name: 'roleId',
       type: 'list',
       message: "What is the employee's new role?",
-      choices: roles()
+      choices: await roles()
     }
   ])
   .then((answer) => {
     connection.query(
-      'UPDATE role SET ? WHERE ?',
+      'UPDATE employee SET ? WHERE ?',
       [
         {
-          title: answer.title
+          role_id: answer.roleId
         },
         {
-          id: answer.id
+          id: answer.id,
         }
       ],
       (err) => {
@@ -226,24 +230,6 @@ const updateEmployeeRole = () => {
 };
 
 // functions used for addEmployee and updateEmployeeRole functions
-const roles = () => {
-  connection.query('SELECT * FROM role', (err, results) => {
-    if (err) throw err;
-    let roleArray = [];
-    results.forEach(({ id }) => {
-      roleArray.push(id);
-    });  
-    return roleArray;
-  });  
-};
+const roles = async() => await connection.query('SELECT role.title AS name, role.id AS value FROM role');
 
-const employees = () => {
-  connection.query('SELECT * FROM employee', (err, results) => {
-    if (err) throw err;
-    let employeeArray = [];
-    results.forEach(({ id }) => {
-      employeeArray.push(id);
-    });  
-    return employeeArray;
-  });
-};
+const employees = async() => await connection.query(`SELECT CONCAT(employee.first_name, ' ', employee.last_name) AS name, employee.id AS value FROM employee`); 
