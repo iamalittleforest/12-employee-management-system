@@ -36,6 +36,9 @@ const start = () => {
         'Add Department',
         'Add Role',
         'Add Employee',
+        'Delete Department',
+        'Delete Role',
+        'Delete Employee',
         'Update Employee Role'
       ]
     })
@@ -59,6 +62,15 @@ const start = () => {
         case 'Add Employee':
           addEmployee();
           break;
+        case 'Delete Department':
+          deleteDepartment();
+          break;
+        case 'Delete Role':
+          deleteRole();
+          break;
+        case 'Delete Employee':
+          deleteEmployee();
+          break;        
         case 'Update Employee Role':
           updateEmployeeRole();
           break;
@@ -66,7 +78,7 @@ const start = () => {
     });
 };
 
-// define functions
+// define view functions
 const viewAllDepartments = () => {
   connection.query('SELECT department.id, department.name FROM department', (err, res) => {
     if (err) throw err;
@@ -91,6 +103,7 @@ const viewAllEmployees = () => {
   });
 };
 
+// define add functions
 const addDepartment = () => {
   inquirer
     .prompt({
@@ -106,7 +119,7 @@ const addDepartment = () => {
         },
         (err) => {
           if (err) throw err;
-          console.log(`Added ${answer.name} Department to the database`);
+          console.log(`Added ${answer.name} department to the database`);
           start();
         }
       );
@@ -142,7 +155,7 @@ const addRole = () => {
         },
         (err) => {
           if (err) throw err;
-          console.log(`Added ${answer.title} Role to the database`);
+          console.log(`Added ${answer.title} role to the database`);
           start();
         }
       );
@@ -193,6 +206,31 @@ const addEmployee = async() => {
   });  
 };  
 
+// define delete functions
+const deleteDepartment = async() => {
+  inquirer
+    .prompt({
+      name: 'id',
+      type: 'list',
+      message: "Which department do you want to remove?",
+      choices: await departments()
+    })
+    .then((answer) => {
+      connection.query(
+        'DELETE FROM department WHERE ?',
+        {
+          id: answer.id
+        },
+        (err) => {
+          if (err) throw err;
+          console.log(`Removed department from the database`);
+          start();
+        }
+      );
+    });
+}; 
+
+// define update functions
 const updateEmployeeRole = async() => {
   inquirer
   .prompt([
@@ -229,7 +267,9 @@ const updateEmployeeRole = async() => {
   });
 };
 
-// functions used for addEmployee and updateEmployeeRole functions
+// helper functions that pull choices 
+const departments = async() => await connection.query('SELECT department.name AS name, department.id AS value FROM department');
+
 const roles = async() => await connection.query('SELECT role.title AS name, role.id AS value FROM role');
 
-const employees = async() => await connection.query(`SELECT CONCAT(employee.first_name, ' ', employee.last_name) AS name, employee.id AS value FROM employee`); 
+const employees = async() => await connection.query(`SELECT CONCAT(employee.first_name, ' ', employee.last_name) AS name, employee.id AS value FROM employee`);
