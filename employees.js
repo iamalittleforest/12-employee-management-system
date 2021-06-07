@@ -253,6 +253,29 @@ const deleteRole = async() => {
     });
 };
 
+const deleteEmployee = async() => {
+  inquirer
+    .prompt({
+      name: 'employeeId',
+      type: 'list',
+      message: "Which employee do you want to remove?",
+      choices: await employeeChoices()
+    })
+    .then((answer) => {
+      connection.query(
+        'DELETE FROM employee WHERE ?',
+        {
+          id: answer.employeeId
+        },
+        (err) => {
+          if (err) throw err;
+          console.log(`Removed employee from the database`);
+          start();
+        }
+      );
+    });
+};
+
 // define update functions
 const updateEmployeeRole = async() => {
   inquirer
