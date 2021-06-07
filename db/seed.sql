@@ -28,24 +28,24 @@ VALUE ('QA Engineer', 65000, 4);
 
 -- employee seeds --
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUE ('Amy', 'Dixon', 1, 2);
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUE ('Derrick', 'Barton', 2, 4);
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUE ('Don', 'Harrington', 2, null);
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUE ('Juanita', 'Barnett', 3, 9);
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUE ('Tina', 'McKinney', 4, 8);
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUE ('Minnie', 'Manning', 5, 8);
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUE ('Irvin', 'Gray', 6, 9);
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUE ('Jacqueline', 'Burgess', 6, null);
+VALUE ('Amy', 'Dixon', 1, 3);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUE ('Lindsey', 'Weaver', 7, null);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUE ('Derrick', 'Barton', 2, 7);
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUE ('Irvin', 'Gray', 6, 2);
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUE ('Tina', 'McKinney', 4, 10);
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUE ('Don', 'Harrington', 2, null);
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUE ('Juanita', 'Barnett', 3, 2);
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUE ('Armando', 'Griffith', 8, 5);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUE ('Brett', 'Wong', 8, 6);
+VALUE ('Minnie', 'Manning', 5, 10);
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUE ('Jacqueline', 'Burgess', 6, null);
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUE ('Brett', 'Wong', 8, 9);
