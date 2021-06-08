@@ -134,7 +134,7 @@ const addDepartment = () => {
     });
 };  
 
-const addRole = () => {
+const addRole = async() => {
   inquirer
     .prompt([
       {
