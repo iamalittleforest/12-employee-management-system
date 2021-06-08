@@ -40,6 +40,7 @@ const start = () => {
         'Delete Role',
         'Delete Employee',
         'Update Employee Role',
+        'Update Employee Manager',
         'Exit'
       ]
     })
@@ -74,6 +75,9 @@ const start = () => {
           break;        
         case 'Update Employee Role':
           updateEmployeeRole();
+          break;
+        case 'Update Employee Manager':
+          updateEmployeeManager();
           break;
         case 'Exit':
           connection.end();
@@ -310,7 +314,43 @@ const updateEmployeeRole = async() => {
       ],
       (err) => {
         if (err) throw err;
-        console.log(`Updated employee's Role`);
+        console.log(`Updated employee's role`);
+        start();
+      }
+    );
+  });
+};
+
+const updateEmployeeManager = async() => {
+  inquirer
+  .prompt([
+    {
+      name: 'id',
+      type: 'list',
+      message: "Which employee's manager do you want to update?",
+      choices: await employeeChoices()
+    },
+    {
+      name: 'managerId',
+      type: 'list',
+      message: "Who is the employee's new manager?",
+      choices: await employeeChoices()
+    }
+  ])
+  .then((answer) => {
+    connection.query(
+      'UPDATE employee SET ? WHERE ?',
+      [
+        {
+          manager_id: answer.managerId
+        },
+        {
+          id: answer.id,
+        }
+      ],
+      (err) => {
+        if (err) throw err;
+        console.log(`Updated employee's manager`);
         start();
       }
     );
