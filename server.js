@@ -117,7 +117,7 @@ const addDepartment = () => {
     .prompt({
       name: 'name',
       type: 'input',
-      message: "What is the name of the department?",
+      message: 'What is the name of the department?',
     })
     .then((answer) => {
       connection.query(
@@ -140,17 +140,18 @@ const addRole = () => {
       {
         name: 'title',
         type: 'input',
-        message: "What is title of the role?",
+        message: 'What is the title of the role?',
       },
       {
         name: 'salary',
         type: 'input',
-        message: "What is salary of the role?",
+        message: 'What is the salary of the role?',
       },
       {
         name: 'departmentId',
-        type: 'input',
-        message: "What is the department ID of the role?",
+        type: 'list',
+        message: 'What department is the role in?',
+        choices: await departmentChoices()
       }
     ])
     .then((answer) => {
@@ -176,23 +177,23 @@ const addEmployee = async() => {
     {
       name: 'firstName',
       type: 'input',
-      message: "What is the employee's first name?"
+      message: `What is the employee's first name?`
     },  
     {
       name: 'lastName',
       type: 'input',
-      message: "What is the employee's last name?"
+      message: `What is the employee's last name?`
     },  
     {
       name: 'roleId',
       type: 'list',
-      message: "What is the employee's role?",
+      message: `What is the employee's role?`,
       choices: await roleChoices()
     },  
     {
       name: 'managerId',
       type: 'list',
-      message: "Who is the employee's manager?",
+      message: `Who is the employee's manager?`,
       choices: await employeeChoices()  
     }  
   ])  
@@ -220,7 +221,7 @@ const deleteDepartment = async() => {
     .prompt({
       name: 'departmentId',
       type: 'list',
-      message: "Which department do you want to remove?",
+      message: 'Which department do you want to remove?',
       choices: await departmentChoices()
     })
     .then((answer) => {
@@ -231,7 +232,7 @@ const deleteDepartment = async() => {
         },
         (err) => {
           if (err) throw err;
-          console.log(`Removed department from the database`);
+          console.log('Removed department from the database');
           start();
         }
       );
@@ -243,7 +244,7 @@ const deleteRole = async() => {
     .prompt({
       name: 'roleId',
       type: 'list',
-      message: "Which role do you want to remove?",
+      message: 'Which role do you want to remove?',
       choices: await roleChoices()
     })
     .then((answer) => {
@@ -254,7 +255,7 @@ const deleteRole = async() => {
         },
         (err) => {
           if (err) throw err;
-          console.log(`Removed role from the database`);
+          console.log('Removed role from the database');
           start();
         }
       );
@@ -266,7 +267,7 @@ const deleteEmployee = async() => {
     .prompt({
       name: 'employeeId',
       type: 'list',
-      message: "Which employee do you want to remove?",
+      message: 'Which employee do you want to remove?',
       choices: await employeeChoices()
     })
     .then((answer) => {
@@ -277,7 +278,7 @@ const deleteEmployee = async() => {
         },
         (err) => {
           if (err) throw err;
-          console.log(`Removed employee from the database`);
+          console.log('Removed employee from the database');
           start();
         }
       );
@@ -291,13 +292,13 @@ const updateEmployeeRole = async() => {
     {
       name: 'id',
       type: 'list',
-      message: "Which employee's role do you want to update?",
+      message: `Which employee's role do you want to update?`,
       choices: await employeeChoices()
     },
     {
       name: 'roleId',
       type: 'list',
-      message: "What is the employee's new role?",
+      message: `What is the employee's new role?`,
       choices: await roleChoices()
     }
   ])
@@ -327,13 +328,13 @@ const updateEmployeeManager = async() => {
     {
       name: 'id',
       type: 'list',
-      message: "Which employee's manager do you want to update?",
+      message: `Which employee's manager do you want to update?`,
       choices: await employeeChoices()
     },
     {
       name: 'managerId',
       type: 'list',
-      message: "Who is the employee's new manager?",
+      message: `Who is the employee's new manager?`,
       choices: await employeeChoices()
     }
   ])
