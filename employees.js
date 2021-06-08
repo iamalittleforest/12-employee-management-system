@@ -357,9 +357,9 @@ const updateEmployeeManager = async() => {
   });
 };
 
-// helper functions that pull choices 
-const departmentChoices = async() => await connection.query('SELECT department.name AS name, department.id AS value FROM department');
+// query functions that pull choices 
+const departmentChoices = async() => await connection.query('SELECT department.name AS name, department.id AS value FROM department ORDER BY name');
 
-const roleChoices = async() => await connection.query('SELECT role.title AS name, role.id AS value FROM role');
+const roleChoices = async() => await connection.query('SELECT role.title AS name, role.id AS value FROM role ORDER by name');
 
-const employeeChoices = async() => await connection.query(`SELECT CONCAT(employee.first_name, ' ', employee.last_name) AS name, employee.id AS value FROM employee`);
+const employeeChoices = async() => await connection.query(`SELECT CONCAT(employee.first_name, ' ', employee.last_name) AS name, employee.id AS value FROM employee ORDER BY name`);
