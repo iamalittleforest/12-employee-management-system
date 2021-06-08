@@ -39,7 +39,8 @@ const start = () => {
         'Delete Department',
         'Delete Role',
         'Delete Employee',
-        'Update Employee Role'
+        'Update Employee Role',
+        'Exit'
       ]
     })
     .then((answer) => {
@@ -74,6 +75,9 @@ const start = () => {
         case 'Update Employee Role':
           updateEmployeeRole();
           break;
+        case 'Exit':
+          connection.end();
+          break;
       }
     });
 };
@@ -88,7 +92,7 @@ const viewAllDepartments = () => {
 };
 
 const viewAllRoles = () => {
-  connection.query('SELECT role.id, role.title, role.salary, department.name AS department FROM role JOIN department ON role.department_id = department.id', (err, res) => {
+  connection.query('SELECT role.id, role.title, role.salary, department.name AS department FROM role LEFT JOIN department ON role.department_id = department.id', (err, res) => {
     if (err) throw err;
     console.table(res);
     start();
