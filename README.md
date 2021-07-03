@@ -1,4 +1,4 @@
-# 12 Employee Management System
+# Employee Management System
 
 ## Languages & Technologies
 * Javascript
@@ -9,7 +9,7 @@
 * Console.table Package
 
 ## Description
-This application can be used to manage a company's employees.
+An application that can be used to manage a company's employees.
 
 ## Screenshot
 <img src="assets/images/README-screenshot.png" alt="screenshot">
